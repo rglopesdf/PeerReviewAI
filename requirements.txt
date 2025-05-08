@@ -1,0 +1,7 @@
+langchain
+openai
+google-generativeai
+langgraph
+pypdf
+python-pptx
+pandas

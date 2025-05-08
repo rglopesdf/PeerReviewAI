@@ -1,0 +1,45 @@
+{
+  "criteria": [
+    {
+      "id": "introducao_contextualizacao",
+      "name": "Introdução e contextualização do tema",
+      "description": "Avaliar a clareza e profundidade da introdução, a contextualização do tema de pesquisa e a relevância do problema abordado.",
+      "max_points": 2,
+      "llm_provider": "openai",
+      "model_name": "gpt-4.1"
+    },
+    {
+      "id": "descricao_fundamentada",
+      "name": "Descrição Fundamentada (com base no relatório State of AI Report 2024)",
+      "description": "Avaliar a qualidade da descrição fundamentada, verificando se as informações apresentadas são consistentes e baseadas no relatório 'State of AI Report 2024'. A análise deve focar na correta interpretação e aplicação dos dados e conclusões do relatório ao problema de pesquisa do aluno.",
+      "max_points": 2,
+      "llm_provider": "gemini",
+      "model_name": "gemini-1.5-flash",
+      "reference_document": "State_of_AI_Report_2024.pptx"
+    },
+    {
+      "id": "analise_critica",
+      "name": "Análise Crítica das referências e SOTA",
+      "description": "Avaliar a capacidade do aluno em analisar criticamente as referências bibliográficas e o estado da arte (SOTA) do problema de pesquisa. Verificar se a análise vai além de uma simples descrição, identificando lacunas, contradições ou oportunidades para futuras pesquisas.",
+      "max_points": 3,
+      "llm_provider": "openai",
+      "model_name": "gpt-4.1"
+    },
+    {
+      "id": "discussao_conclusao",
+      "name": "Discussão e Conclusão",
+      "description": "Avaliar a profundidade da discussão dos resultados da pesquisa sobre o estado da arte, a clareza das conclusões e a sua coerência com os objetivos propostos e a análise crítica realizada.",
+      "max_points": 2,
+      "llm_provider": "gemini",
+      "model_name": "gemini-1.5-flash"
+    },
+    {
+      "id": "adequacao_formato_norma",
+      "name": "Adequação ao formato e norma culta (IEEE, ACM ou Springer)",
+      "description": "Avaliar a adequação do trabalho ao formato especificado (IEEE, ACM ou Springer) e o uso da norma culta da língua portuguesa, incluindo gramática, ortografia e clareza da escrita.",
+      "max_points": 1,
+      "llm_provider": "openai",
+      "model_name": "gpt-4.1"
+    }
+  ]
+}
