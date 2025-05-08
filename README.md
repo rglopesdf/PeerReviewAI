@@ -20,6 +20,7 @@ O resultado da avaliação é um arquivo CSV detalhado, contendo a pontuação e
 
 ```
 academic_evaluator/
+├── academic_evaluator_colab.ipynb # Notebook Jupyter para uso no Google Colab
 ├── config/
 │   └── criteria.json           # Arquivo de configuração dos critérios de avaliação
 ├── docs/
@@ -47,8 +48,9 @@ academic_evaluator/
 
 - Python 3.10 ou superior.
 - `pip` para instalar as dependências Python.
+- Para uso no Google Colab, uma conta Google.
 
-## 5. Instruções de Configuração
+## 5. Instruções de Configuração (Local)
 
 1.  **Clone ou Baixe o Projeto**:
     Obtenha os arquivos do projeto e extraia-os para um diretório local.
@@ -74,7 +76,7 @@ academic_evaluator/
     ```
     Substitua `"sua_chave_openai_aqui"` e `"sua_chave_gemini_aqui"` pelas suas chaves reais.
 
-## 6. Configuração do Sistema
+## 6. Configuração do Sistema (Comum para Local e Colab)
 
 ### Arquivo de Critérios (`config/criteria.json`)
 
@@ -108,7 +110,7 @@ Para adicionar um novo critério (e, portanto, um novo agente para avaliá-lo):
 2.  A lógica do `base_agent.py` é genérica o suficiente para lidar com novos critérios definidos no JSON, incluindo o uso de documentos de referência, desde que os prompts sejam bem elaborados na descrição do critério.
 3.  Se um critério exigir uma lógica de prompt muito especializada que não possa ser coberta pela descrição e pelas instruções gerais no `base_agent.py`, pode ser necessário modificar o método `_construct_prompt` em `src/agents/base_agent.py` para adicionar tratamento condicional para o novo `id` do critério, ou criar uma nova classe de agente especializada herdando de `BaseEvaluationAgent` e ajustar o `orchestrator.py` para usá-la (embora o design atual vise evitar isso para novos critérios simples).
 
-## 7. Uso
+## 7. Uso (Local)
 
 1.  **Prepare os Arquivos de Entrada**:
     *   Coloque os trabalhos acadêmicos em formato PDF que você deseja avaliar no diretório `academic_evaluator/pdfs/`.
@@ -122,28 +124,50 @@ Para adicionar um novo critério (e, portanto, um novo agente para avaliá-lo):
     Alternativamente, se você estiver no diretório `academic_evaluator/src/`, você pode tentar executar `python main.py`, mas a abordagem de módulo é mais robusta.
 
     O script `main.py` aceita os seguintes argumentos de linha de comando (com valores padrão já configurados):
-    *   `--pdf_dir`: Diretório contendo os arquivos PDF (padrão: `/home/ubuntu/academic_evaluator/pdfs`). **Ajuste este caminho se necessário para o seu ambiente.**
-    *   `--config_file`: Caminho para o arquivo de configuração dos critérios (padrão: `/home/ubuntu/academic_evaluator/config/criteria.json`). **Ajuste este caminho se necessário.**
-    *   `--reports_dir`: Diretório para salvar os relatórios de avaliação (padrão: `/home/ubuntu/academic_evaluator/reports`). **Ajuste este caminho se necessário.**
-    *   `--ref_materials_dir`: Diretório contendo os materiais de referência (padrão: `/home/ubuntu/academic_evaluator/reference_materials`). **Ajuste este caminho se necessário.**
+    *   `--pdf_dir`: Diretório contendo os arquivos PDF (padrão: `academic_evaluator/pdfs/` dentro do diretório de execução). **Ajuste este caminho se necessário para o seu ambiente.**
+    *   `--config_file`: Caminho para o arquivo de configuração dos critérios (padrão: `academic_evaluator/config/criteria.json`). **Ajuste este caminho se necessário.**
+    *   `--reports_dir`: Diretório para salvar os relatórios de avaliação (padrão: `academic_evaluator/reports/`). **Ajuste este caminho se necessário.**
+    *   `--ref_materials_dir`: Diretório contendo os materiais de referência (padrão: `academic_evaluator/reference_materials/`). **Ajuste este caminho se necessário.**
 
-    Exemplo de execução especificando o diretório de PDFs (útil se você não estiver usando os caminhos padrão ou o nome de usuário `ubuntu`):
+    Exemplo de execução especificando o diretório de PDFs (útil se você não estiver usando os caminhos padrão):
     ```bash
-    python -m academic_evaluator.src.main --pdf_dir ./pdfs --config_file ./config/criteria.json --reports_dir ./reports --ref_materials_dir ./reference_materials
+    python -m academic_evaluator.src.main --pdf_dir ./academic_evaluator/pdfs --config_file ./academic_evaluator/config/criteria.json --reports_dir ./academic_evaluator/reports --ref_materials_dir ./academic_evaluator/reference_materials
     ```
 
 3.  **Verifique os Resultados**:
     Após a execução, um arquivo CSV com os resultados da avaliação será gerado no diretório `academic_evaluator/reports/`. O nome do arquivo incluirá um timestamp (ex: `evaluation_report_20250508_123045.csv`).
     O CSV conterá colunas como: `Paper_Filename`, `Criterion_ID`, `Criterion_Name`, `Score`, `Max_Points`, `Justification`, `Assigned_LLM_Provider`, `Assigned_LLM_Model`, e `Evaluation_Errors`.
 
-## 8. Solução de Problemas
+## 8. Uso (Google Colab)
 
--   **Erro de Chave de API**: Certifique-se de que as variáveis de ambiente `OPENAI_API_KEY` e `GEMINI_API_KEY` estão corretamente configuradas e exportadas no seu terminal antes de executar o script.
--   **Arquivo Não Encontrado**: Verifique se os caminhos para os diretórios de PDFs, configuração, relatórios e materiais de referência estão corretos. Use os argumentos de linha de comando se os padrões não corresponderem à sua estrutura.
+Para uma experiência interativa, você pode usar o notebook `academic_evaluator_colab.ipynb` no Google Colab.
+
+1.  **Faça o Upload do Notebook para o Colab**:
+    *   Acesse [Google Colab](https://colab.research.google.com/).
+    *   Selecione `File > Upload notebook...` e escolha o arquivo `academic_evaluator_colab.ipynb` do pacote do projeto.
+
+2.  **Siga as Instruções no Notebook**:
+    O notebook é auto-guiado e contém os seguintes passos principais:
+    *   **Passo 1: Fazer Upload do Pacote do Projeto (`academic_evaluator.zip`)**: Você precisará fazer o upload do arquivo `academic_evaluator.zip` (que contém todo o projeto, incluindo este README, os scripts, exemplos de PDF, etc.) para o ambiente Colab através do notebook.
+    *   **Passo 2: Descompactar o Projeto**: O notebook descompactará o arquivo zip.
+    *   **Passo 3: Instalar as Dependências**: As dependências listadas em `requirements.txt` serão instaladas no ambiente Colab.
+    *   **Passo 4: Configurar as Chaves de API**: Você será solicitado a inserir suas chaves de API da OpenAI e Gemini de forma segura (elas não são salvas no notebook).
+    *   **Passo 5 (Opcional): Verificar Estrutura**: Para confirmar que tudo foi carregado corretamente.
+    *   **Passo 6: Executar a Avaliação**: O script principal será executado usando os arquivos de exemplo. Você pode adicionar seus próprios PDFs ao diretório `academic_evaluator/pdfs` no ambiente Colab (usando o painel de arquivos à esquerda) antes de executar esta etapa.
+    *   **Passo 7: Visualizar e Baixar o Relatório**: O notebook ajudará a localizar e baixar o relatório CSV gerado.
+
+3.  **Modificando Arquivos no Colab**:
+    *   **PDFs e Materiais de Referência**: Você pode usar o painel de arquivos à esquerda no Colab para fazer upload de novos PDFs para o diretório `academic_evaluator/pdfs/` ou materiais de referência para `academic_evaluator/reference_materials/` após descompactar o projeto.
+    *   **Configuração de Critérios**: O arquivo `academic_evaluator/config/criteria.json` pode ser editado diretamente no Colab (clique duas vezes nele no painel de arquivos) se você desejar alterar os critérios antes de executar a avaliação.
+
+## 9. Solução de Problemas (Comum para Local e Colab)
+
+-   **Erro de Chave de API**: Certifique-se de que as chaves de API estão corretas e foram devidamente configuradas (como variáveis de ambiente localmente, ou inseridas corretamente no prompt do Colab).
+-   **Arquivo Não Encontrado**: Verifique se os caminhos para os diretórios de PDFs, configuração, relatórios e materiais de referência estão corretos. No Colab, certifique-se de que o projeto foi descompactado na estrutura esperada.
 -   **Falha na Extração de PDF/PPTX**: Alguns PDFs (especialmente os baseados em imagem ou com formatação complexa) ou PPTXs podem não ser totalmente processados. O sistema tenta lidar com erros, mas a qualidade da extração pode variar.
--   **Problemas de Dependência**: Se encontrar erros relacionados a módulos não encontrados, certifique-se de que você ativou o ambiente virtual (se estiver usando um) e que todas as dependências em `requirements.txt` foram instaladas corretamente.
+-   **Problemas de Dependência**: Se encontrar erros relacionados a módulos não encontrados, certifique-se de que você ativou o ambiente virtual (localmente) e que todas as dependências em `requirements.txt` foram instaladas corretamente (localmente ou via notebook no Colab).
 
-## 9. Feedback e Relato de Problemas
+## 10. Feedback e Relato de Problemas
 
-Se você encontrar problemas ao executar este sistema no seu ambiente, por favor, relate-os para que possam ser investigados.
+Se você encontrar problemas ao executar este sistema no seu ambiente (local ou Colab), por favor, relate-os para que possam ser investigados.
 

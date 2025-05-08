@@ -64,7 +64,7 @@ def main():
             all_results_for_report.append(evaluation_output)
             print(f"Finished processing: {os.path.basename(pdf_path)}")
             if evaluation_output.get("errors"):
-                print(f"  Errors encountered for {os.path.basename(pdf_path)}: {evaluation_output["errors"]}")
+                print(f"  Errors encountered for {os.path.basename(pdf_path)}: {evaluation_output['errors']}")
         except Exception as e:
             print(f"Critical error during evaluation of {os.path.basename(pdf_path)}: {e}")
             # Add error to report structure
