@@ -165,12 +165,15 @@ class AcademicPaperOrchestrator:
         state["evaluation_results"].append(result)
         return state
 
-    def decide_next_criterion_node(self, state: EvaluationState) -> str:
+    def update_criterion_index_node(self, state: EvaluationState) -> EvaluationState:
         state["current_criterion_index"] += 1
+        # Clear reference text for the next criterion, it will be re-extracted if needed
+        state["reference_material_text"] = None
+        state["reference_material_path"] = None
+        return state # Ensure the full state is returned
+
+    def route_to_next_step_node(self, state: EvaluationState) -> str:
         if state["current_criterion_index"] < len(state["criteria_config"]):
-            # Clear reference text for the next criterion, it will be re-extracted if needed
-            state["reference_material_text"] = None
-            state["reference_material_path"] = None
             return "extract_reference_material"
         else:
             return "end_evaluation"
@@ -182,16 +185,16 @@ class AcademicPaperOrchestrator:
         graph_builder.add_node("extract_pdf_text", self.extract_pdf_text_node)
         graph_builder.add_node("extract_reference_material", self.extract_reference_material_node)
         graph_builder.add_node("evaluate_criterion", self.evaluate_criterion_node)
-
+        graph_builder.add_node("update_criterion_index", self.update_criterion_index_node) # Changed from decide_next_criterion
         graph_builder.set_entry_point("start_evaluation")
         graph_builder.add_edge("start_evaluation", "extract_pdf_text")
-        graph_builder.add_edge("extract_pdf_text", "extract_reference_material") # Always try to extract ref for the first criterion
+        graph_builder.add_edge("extract_pdf_text", "extract_reference_material") 
         graph_builder.add_edge("extract_reference_material", "evaluate_criterion")
-        graph_builder.add_edge("evaluate_criterion", "decide_next_criterion")
+        graph_builder.add_edge("evaluate_criterion", "update_criterion_index") # Changed from decide_next_criterion
         
         graph_builder.add_conditional_edges(
-            "decide_next_criterion",
-            self.decide_next_criterion_node,
+            "update_criterion_index", # Changed from decide_next_criterion
+            self.route_to_next_step_node, # Changed from decide_next_criterion_node
             {
                 "extract_reference_material": "extract_reference_material",
                 "end_evaluation": END

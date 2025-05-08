@@ -5,3 +5,5 @@ langgraph
 pypdf
 python-pptx
 pandas
+langchain-openai
+langchain-google-genai

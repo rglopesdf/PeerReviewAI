@@ -6,8 +6,8 @@ import json
 import pandas as pd
 from datetime import datetime
 
-from academic_evaluator.src.orchestrator import AcademicPaperOrchestrator
-from academic_evaluator.src.reporter import CSVReporter
+from .orchestrator import AcademicPaperOrchestrator
+from .reporter import CSVReporter
 
 def main():
     parser = argparse.ArgumentParser(description="Academic Paper Evaluator using LLMs and Langgraph.")

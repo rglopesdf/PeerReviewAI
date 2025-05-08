@@ -1,0 +1,5 @@
+Paper_Filename,Criterion_ID,Criterion_Name,Score,Max_Points,Justification,Assigned_LLM_Provider,Assigned_LLM_Model,Evaluation_Errors
+sample_paper_1.pdf,ERROR,System Error,N/A,N/A,An error occurred during processing.,N/A,N/A,"Critical error in main loop: Expected dict, got extract_reference_material
+For troubleshooting, visit: https://python.langchain.com/docs/troubleshooting/errors/INVALID_GRAPH_NODE_RETURN_VALUE"
+another_sample_paper.pdf,ERROR,System Error,N/A,N/A,An error occurred during processing.,N/A,N/A,"Critical error in main loop: Expected dict, got extract_reference_material
+For troubleshooting, visit: https://python.langchain.com/docs/troubleshooting/errors/INVALID_GRAPH_NODE_RETURN_VALUE"
