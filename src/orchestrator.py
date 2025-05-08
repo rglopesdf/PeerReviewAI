@@ -182,7 +182,6 @@ class AcademicPaperOrchestrator:
         graph_builder.add_node("extract_pdf_text", self.extract_pdf_text_node)
         graph_builder.add_node("extract_reference_material", self.extract_reference_material_node)
         graph_builder.add_node("evaluate_criterion", self.evaluate_criterion_node)
-        graph_builder.add_node("end_evaluation", END) # Using END from langgraph.graph
 
         graph_builder.set_entry_point("start_evaluation")
         graph_builder.add_edge("start_evaluation", "extract_pdf_text")
@@ -195,7 +194,7 @@ class AcademicPaperOrchestrator:
             self.decide_next_criterion_node,
             {
                 "extract_reference_material": "extract_reference_material",
-                "end_evaluation": "end_evaluation"
+                "end_evaluation": END
             }
         )
         return graph_builder.compile()
